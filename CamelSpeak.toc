@@ -1,0 +1,10 @@
+## Interface: 11302
+## Title: CamelSpeak
+## Notes: MaKeS yOu EvEn MoRe AnNoYiNg
+## Author: Butterscup
+## Version: 1.0
+
+## SavedVariables: CamelSpeakDB
+
+embeds.xml
+Core.lua
