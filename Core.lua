@@ -69,11 +69,31 @@ function CamelSpeak:ToggleEnabled()
     end
 end
 
+-- Escapes a string for use in pattern matching
+local function escape(s)
+    return s:gsub('([%^%$%(%)%%%.%[%]%*%+%-%?])', '%%%0');
+end
+
 function CamelSpeak:SendChatMessage(msg, chatType, language, channel)
     local upper = true;
     local newMsg = {};
-    local i;
+    local links = {};
+    local match;
+    local i, v;
 
+    -- Save links to array
+    for match in msg:gmatch('|c.-|r') do
+        table.insert(links, match);
+    end
+
+    -- Replace links
+    for i,v in ipairs(links) do
+        local pattern = escape(v);
+        local replacement = '{{' .. tostring(i) .. '}}';
+        msg = msg:gsub(pattern, replacement);
+    end
+
+    -- Camelcaseify
     for i = 1, msg:len() do
         local c = msg:sub(i, i);
         if c:match('%a') ~= nil then
@@ -89,5 +109,14 @@ function CamelSpeak:SendChatMessage(msg, chatType, language, channel)
     end
 
     newMsg = table.concat(newMsg);
+
+    -- Restore links
+    for i,v in ipairs(links) do
+        local pattern = '{{' .. tostring(i) .. '}}';
+        local replacement = v;
+        newMsg = newMsg:gsub(pattern, replacement);
+    end
+
+    -- Send message
     self.hooks['SendChatMessage'](newMsg, chatType, language, channel);
 end

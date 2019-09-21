@@ -2,7 +2,7 @@
 ## Title: CamelSpeak
 ## Notes: MaKeS yOu EvEn MoRe AnNoYiNg
 ## Author: Butterscup
-## Version: 1.0.0
+## Version: 1.0.1
 
 ## SavedVariables: CamelSpeakDB
 
